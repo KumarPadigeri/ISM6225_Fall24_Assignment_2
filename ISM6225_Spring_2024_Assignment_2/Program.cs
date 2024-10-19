@@ -62,8 +62,15 @@ namespace Assignment_2
         {
             try
             {
+                List<int> missingNums = new List<int>();
+                for (int i = 1; i <= nums.Length; i++)
+                {
+                    // capturing only missing nums
+                    if (!nums.Contains(i))
+                        missingNums.Add(i);
+                }
                 // Write your code here
-                return new List<int>(); // Placeholder
+                return new List<int>(missingNums); // Placeholder
             }
             catch (Exception)
             {
@@ -76,8 +83,20 @@ namespace Assignment_2
         {
             try
             {
+                List<int> evens = new List<int>();
+                List<int> odds = new List<int>();
+
+                for (int i = 0; i < nums.Length; i++)
+                {
+                    if (nums[i] % 2 == 0)
+                        evens.Add(nums[i]);
+                    else
+                        odds.Add(nums[i]);
+                }
+                //merging both evens and odds
+                evens.AddRange(odds);
                 // Write your code here
-                return new int[0]; // Placeholder
+                return [.. evens]; // Placeholder
             }
             catch (Exception)
             {
@@ -90,8 +109,20 @@ namespace Assignment_2
         {
             try
             {
+                List<int> targets = new List<int>();
+                for (int i = 0; i < nums.Length; i++)
+                {
+                    for (int j = 1; j < nums.Length - 1; j++)
+                    {
+                        if (nums[i] + nums[j] == target)
+                        {
+                            targets.Add(i);
+                            targets.Add(j);
+                        }
+                    }
+                }
                 // Write your code here
-                return new int[0]; // Placeholder
+                return [.. targets]; // Placeholder
             }
             catch (Exception)
             {
@@ -104,8 +135,11 @@ namespace Assignment_2
         {
             try
             {
+                int maxProduct = 1;
+                for (int i = 0; i < nums.Length; i++)
+                    maxProduct *= nums[i];
                 // Write your code here
-                return 0; // Placeholder
+                return maxProduct; // Placeholder
             }
             catch (Exception)
             {
@@ -118,8 +152,17 @@ namespace Assignment_2
         {
             try
             {
-                // Write your code here
-                return "101010"; // Placeholder
+                // Handling the case where number is zero
+                if (decimalNumber == 0) return "0";
+                string binary = "";
+                // Keep dividing the number by 2 and takes the remainder
+                while (decimalNumber > 0)
+                {
+                    int remainder = decimalNumber % 2;
+                    binary = remainder + binary;
+                    decimalNumber /= 2;
+                }
+                return binary;
             }
             catch (Exception)
             {
@@ -131,9 +174,28 @@ namespace Assignment_2
         public static int FindMin(int[] nums)
         {
             try
-            {
-                // Write your code here
-                return 0; // Placeholder
+            { // Set initial left and right pointers
+                int left = 0;
+                int right = nums.Length - 1;
+
+                // If the array has not been rotated, the smallest element is at the beginning
+                if (nums[left] < nums[right])
+                    return nums[left];
+                // Perform binary search
+                while (left < right)
+                {
+                    int mid = left + (right - left) / 2;
+
+                    // If mid element is greater than right, the smallest element is to the right
+                    if (nums[mid] > nums[right])
+                        left = mid + 1;
+                    else
+                        // The smallest element could be mid or to the left of mid
+                        right = mid;
+                }
+
+                // After the loop, left should point to the minimum element
+                return nums[left];
             }
             catch (Exception)
             {
@@ -146,8 +208,16 @@ namespace Assignment_2
         {
             try
             {
-                // Write your code here
-                return false; // Placeholder
+                // Convert num to a string
+                string str = x.ToString();
+
+                // Reverse the string
+                char[] charArray = str.ToCharArray();
+                Array.Reverse(charArray);
+                string reversedStr = new(charArray);
+
+                // Check if original and reversed stringa are the same
+                return str == reversedStr;
             }
             catch (Exception)
             {
@@ -160,8 +230,11 @@ namespace Assignment_2
         {
             try
             {
-                // Write your code here
-                return 0; // Placeholder
+                // checking base cases if n is 0 or 1
+                if (n == 0) return 0;
+                if (n == 1) return 1;
+                // Recursive case calling same method
+                return Fibonacci(n - 1) + Fibonacci(n - 2);
             }
             catch (Exception)
             {
@@ -170,3 +243,10 @@ namespace Assignment_2
         }
     }
 }
+
+
+// Self-reflection:
+// While solving these problems, I improved my understanding of handling edge cases, such as empty arrays 
+// or negative inputs, and I learned to structure my code more modularly by organizing the logic into separate methods.
+// I found ways to reduce redundant calculations. In the future, I would explore using more advanced data structures to improve performance further. 
+// Overall, I gained valuable insights into writing more maintainable and robust code.
